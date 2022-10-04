@@ -3,11 +3,11 @@ class CommentsController < ApplicationController
   
   def create
     post = Post.find(params[:post_id])
-    comment = Comment.new(comment_params)
-    comment.post = post
-    comment.user = current_user
+    @comment = Comment.new(comment_params)
+    @comment.post = post
+    @comment.user = current_user
 
-    if comment.save
+    if @comment.save
     else
       render :new, status: :unprocessable_entity
     end
@@ -17,4 +17,6 @@ class CommentsController < ApplicationController
   private
 
     def comment_params
+      params.require(:comment).permit(:body)
+    end
 end
